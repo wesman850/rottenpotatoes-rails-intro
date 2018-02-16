@@ -1,17 +1,35 @@
 -#  This file is app/views/movies/index.html.haml
 %h1 All Movies
 
+= form_tag movies_path,:id => 'ratings_form',  :method => :get do
+  Include:
+  - @all_ratings.each do |rate|
+    = rate
+    // = check_box_tag "ratings[#{rate}]", value = "1", params[:ratings].include?(rate) || params[:ratings].nil?
+    = check_box_tag "ratings[#{rate}]", value = "1", session[:ratings].include?(rate) || session[:ratings].nil?
+    //false if (params[:ratings] == []) || true if (params[:ratings] != [])||params[:ratings].include?(rate)
+  = submit_tag 'Refresh',:id => 'refresh_ratings'
+//false if (params[:ratings] == []) || true if (params[:ratings] != [])
+// -@ratings_picked.each do |rating|
+//   -if @ratings_picked.key?(rating)
+//     =check_box_tag "ratings[]", rating, true
+
 %table#movies
   %thead
     %tr
-      %th Movie Title
+
+      // %th{:class => ("hilite" if (params[:sortTitleFunction] == 'TitleSort'))}
+      %th{:class => ("hilite" if (session[:sortTitleFunction] == 'TitleSort'))}
+        %a#title_header{:href => movies_path({:sortTitleFunction => 'TitleSort'})} Movie Title
       %th Rating
-      %th Release Date
+      // %th{:class => ("hilite" if (params[:sortReleaseFunction] == 'ReleaseSort'))}
+      %th{:class => ("hilite" if (session[:sortReleaseFunction] == 'ReleaseSort'))}
+        %a#release_date_header{:href => movies_path({:sortReleaseFunction => 'ReleaseSort'})} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|
       %tr
-        %td= movie.title 
+        %td= movie.title
         %td= movie.rating
         %td= movie.release_date
         %td= link_to "More about #{movie.title}", movie_path(movie)
