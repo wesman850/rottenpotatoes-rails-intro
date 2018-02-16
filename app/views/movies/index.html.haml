@@ -17,14 +17,21 @@
 %table#movies
   %thead
     %tr
-
+      //PART 1
       // %th{:class => ("hilite" if (params[:sortTitleFunction] == 'TitleSort'))}
-      %th{:class => ("hilite" if (session[:sortTitleFunction] == 'TitleSort'))}
-        %a#title_header{:href => movies_path({:sortTitleFunction => 'TitleSort'})} Movie Title
+      //PART 2
+      // %th{:class => ("hilite" if (params[:sortTitleFunction] == 'TitleSort'))}
+      //   %a#title_header{:href => movies_path({:sortTitleFunction => 'TitleSort'})} Movie Title
+      %th{:class => ("hilite" if session[:sort] == "title")}
+        %a#title_header{:href => movies_path({:sort => 'title'})} Movie Title
       %th Rating
+      //PART 1
       // %th{:class => ("hilite" if (params[:sortReleaseFunction] == 'ReleaseSort'))}
-      %th{:class => ("hilite" if (session[:sortReleaseFunction] == 'ReleaseSort'))}
-        %a#release_date_header{:href => movies_path({:sortReleaseFunction => 'ReleaseSort'})} Release Date
+      //PART 2
+      // %th{:class => ("hilite" if (session[:sortReleaseFunction] == 'ReleaseSort'))}
+      //   %a#release_date_header{:href => movies_path({:sortReleaseFunction => 'ReleaseSort'})} Release Date
+      %th{:class => ("hilite" if session[:sort] == "release_date")}
+        %a#release_date_header{:href => movies_path({:sort => 'release_date'})} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|

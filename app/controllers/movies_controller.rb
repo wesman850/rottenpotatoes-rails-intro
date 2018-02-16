@@ -21,20 +21,20 @@ class MoviesController < ApplicationController
     # end
     session[:ratings] || session[:ratings] = Hash[@all_ratings.map {|rating| [rating, rating]}]
     session[:sort] || session[:sort] = 'id'
-
+    
     if params[:ratings]
       temp = params[:ratings]
       session[:ratings] = temp
     end
-
+    
     if params[:sort]
       temp = params[:sort]
       session[:sort] = temp
     end
-
+    
     heuristic1 = !params[:ratings]
     heuristic2 = !params[:sort]
-
+   
     #Check Heuristic
     if(heuristic1 || heuristic2)
       #No matches
@@ -42,11 +42,11 @@ class MoviesController < ApplicationController
       #Redirection
       redirect_to :ratings => session[:ratings], :sort => session[:sort]
     end
-
+    
      @movies = Movie.where(:rating => session[:ratings].keys).order(session[:sort])
-
-
-
+    
+      
+   
     #PART 2
     # :rate => params[:ratings].keys
     # if params[:ratings].present?
@@ -55,15 +55,15 @@ class MoviesController < ApplicationController
     #   @ratings_picked = []
     # end
     # Checking to see if movie titles are in order
-
+    
     #PART 1
-    # if params[:sortTitleFunction] == "TitleSort"
-    #   @movies = @movies.order(:title)
-    # end
-    # #Checking to see if movie release dates are in order
-    # if params[:sortReleaseFunction] == "ReleaseSort"
-    #   @movies = @movies.order(:release_date)
-    # end
+    if params[:sortTitleFunction] == "TitleSort"
+      @movies = @movies.order(:title)
+    end
+    #Checking to see if movie release dates are in order
+    if params[:sortReleaseFunction] == "ReleaseSort"
+      @movies = @movies.order(:release_date)
+    end
   end
 
   def new
